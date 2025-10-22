@@ -1,0 +1,12 @@
+# Usa la imagen oficial de MinIO
+FROM minio/minio:latest
+
+# Configura las credenciales de acceso
+ENV MINIO_ACCESS_KEY=mykey
+ENV MINIO_SECRET_KEY=mysecret
+
+# Puerto por defecto del servidor
+EXPOSE 9000
+
+# Comando para iniciar MinIO
+CMD ["server", "/data"]

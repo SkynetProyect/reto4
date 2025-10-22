@@ -1,0 +1,13 @@
+# Usa la imagen oficial de MongoDB
+FROM mongo:latest
+
+# Variables de entorno para la base de datos
+ENV MONGO_INITDB_ROOT_USERNAME=root
+ENV MONGO_INITDB_ROOT_PASSWORD=example
+ENV MONGO_INITDB_DATABASE=knote
+
+# Puerto expuesto
+EXPOSE 27017
+
+# Comando por defecto (ya definido en la imagen base, pero se incluye por claridad)
+CMD ["mongod"]
