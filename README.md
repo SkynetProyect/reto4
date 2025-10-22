@@ -2,6 +2,8 @@ NOTAS:
 Solo se pueden subir imagenes de tipo .png inferiores a 20MB. imagenes de otro tipo pueden no mostrarse.
 El archivo con la version sin minio es leninospina/knote:1.0.0
 el dockerhub con la version con minio es leninospina/knote:2.0.0
+para minio leninospina/minio:latest
+para mongo leninospina/mongo:latest
 
 para testear en local los dockers usados para mongoDB y minio son:
 
