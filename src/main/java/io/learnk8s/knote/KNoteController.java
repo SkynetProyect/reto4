@@ -65,7 +65,8 @@ class KNoteController {
 
         // Si se envía imagen, procesarla
         if (file != null && !file.isEmpty()) {
-            uploadImage(file, description, model);
+            description = uploadImage(file, description);
+
         }
 
         // Guardar la nota si hay contenido
@@ -88,12 +89,11 @@ class KNoteController {
         return "index";
     }
 
-    private void uploadImage(MultipartFile file, String description, Model model) throws Exception {
+    private String uploadImage(MultipartFile file, String description) throws Exception {
         String fileId = UUID.randomUUID().toString() + "." + file.getOriginalFilename().split("\\.")[1];
         minioClient.putObject(properties.getMinioBucket(), fileId, file.getInputStream(),
                 file.getSize(), null, null, file.getContentType());
-        model.addAttribute("description",
-                description + " ![](/img/" + fileId + ")");
+        return description + " ![](/img/" + fileId + ")";
     }
 
     private void getAllNotes(Model model) {
@@ -107,7 +107,7 @@ class KNoteController {
         boolean success = false;
         while (!success) {
             try {
-                minioClient = new MinioClient("http://" + properties.getMinioHost() + ":9000" ,
+                minioClient = new MinioClient(properties.getMinioHost() ,
                         properties.getMinioAccessKey(),
                         properties.getMinioSecretKey(),
                         false);
