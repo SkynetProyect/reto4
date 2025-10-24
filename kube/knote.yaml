@@ -26,9 +26,9 @@ spec:
             - name: MINIO_HOST
               value: "http://minio:9000"
             - name: MINIO_ACCESS_KEY
-              value: "minio"
+              value: "mykey"
             - name: MINIO_SECRET_KEY
-              value: "minio123"
+              value: "mysecret"
             - name: MINIO_BUCKET
               value: "knote"
             - name: SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE
