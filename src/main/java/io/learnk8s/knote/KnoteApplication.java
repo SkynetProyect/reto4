@@ -26,16 +26,16 @@ public class KnoteApplication {
 
 @ConfigurationProperties(prefix = "knote")
 class KnoteProperties {
-    @Value("${minio.host:localhost}")
+    @Value("${minio.host}")
     private String minioHost;
 
-    @Value("${minio.bucket:image-storage}")
+    @Value("${minio.bucket}")
     private String minioBucket;
 
-    @Value("${minio.access.key:}")
+    @Value("${minio.access.key}")
     private String minioAccessKey;
 
-    @Value("${minio.secret.key:}")
+    @Value("${minio.secret.key}")
     private String minioSecretKey;
 
     @Value("${minio.useSSL:false}")

@@ -2,22 +2,23 @@ version: "3.8"
 
 services:
   mongo:
-    image: leninospina/mongo:latest
+    image: mongo
     container_name: mongo
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=example
+      - MONGO_INITDB_DATABASE=knote
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
 
   minio:
-    image: leninospina/minio:latest
+    image: minio/minio
     container_name: minio
     environment:
-      - MINIO_ROOT_USER=minio
-      - MINIO_ROOT_PASSWORD=minio123
+      - MINIO_ACCESS_KEY=mykey
+      - MINIO_SECRET_KEY=mysecret
     command: server /data --console-address ":9001"
     ports:
       - "9000:9000"
@@ -25,14 +26,17 @@ services:
       - minio_data:/data
 
   knote:
-    image: leninospina/knote:2.0.0
+    #image: leninospina/knote:2.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: knote
     environment:
       - SPRING_DATA_MONGODB_URI=mongodb://root:example@mongo:27017/knote?authSource=admin
       - MINIO_URL=http://minio:9000
-      - MINIO_HOST= http://minio:9000
-      - MINIO_ACCESS_KEY=minio
-      - MINIO_SECRET_KEY=minio123
+      - MINIO_HOST=http://minio:9000
+      - MINIO_ACCESS_KEY=mykey
+      - MINIO_SECRET_KEY=mysecret
       - MINIO_BUCKET=knote
       - SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE=50MB
       - SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE=50MB
