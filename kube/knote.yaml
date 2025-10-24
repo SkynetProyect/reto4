@@ -1,0 +1,50 @@
+# knote-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: knote
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: knote
+  template:
+    metadata:
+      labels:
+        app: knote
+    spec:
+      containers:
+        - name: knote
+          image: leninospina/knote:2.0.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATA_MONGODB_URI
+              value: "mongodb://root:example@mongo:27017/knote?authSource=admin"
+            - name: MINIO_URL
+              value: "http://minio:9000"
+            - name: MINIO_HOST
+              value: "http://minio:9000"
+            - name: MINIO_ACCESS_KEY
+              value: "minio"
+            - name: MINIO_SECRET_KEY
+              value: "minio123"
+            - name: MINIO_BUCKET
+              value: "knote"
+            - name: SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE
+              value: "50MB"
+            - name: SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE
+              value: "50MB"
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: knote
+spec:
+  selector:
+    app: knote
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer

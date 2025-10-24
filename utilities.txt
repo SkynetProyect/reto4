@@ -9,3 +9,21 @@ docker run -d \
 
 
 docker run --name=minio --rm -p 9000:9000 -e MINIO_ACCESS_KEY=mykey -e MINIO_SECRET_KEY=mysecret minio/minio server /data
+
+  knote:
+    image: leninospina/knote:2.0.0
+    container_name: knote
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://root:example@mongo:27017/knote?authSource=admin
+      - MINIO_URL=http://minio:9000
+      - MINIO_HOST= http://minio:9000
+      - MINIO_ACCESS_KEY=minio
+      - MINIO_SECRET_KEY=minio123
+      - MINIO_BUCKET=knote
+      - SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE=50MB
+      - SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE=50MB
+    depends_on:
+      - mongo
+      - minio
+    ports:
+      - "8080:8080"
